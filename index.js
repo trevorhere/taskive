@@ -53,7 +53,8 @@ function parseMessage(msgBody, numFrom, res){
         parseCallBack(res, val);
         break;
     case "lists":
-    console.log(`Lists triggered: ${msgBody}`);
+      console.log(`Lists triggered: ${msgBody}`);
+      console.log(`selectedList.name: ${selectedList.name}`);
       var collection = db.collection(numFrom);
       // Find lists for this numbers
       collection.find({}).toArray(function(err, docs) {
@@ -105,7 +106,7 @@ function parseMessage(msgBody, numFrom, res){
         break;
     case "view":
         console.log(`View triggered: ${msgBody}`);
-        
+        console.log(`selectedList.name: ${selectedList.name}`);
         var query = {'name': selectedList.name};
         var collection = db.collection(numFrom);
 
@@ -146,6 +147,7 @@ function parseMessage(msgBody, numFrom, res){
 // START SELECT
     case "select":
         console.log(`Select triggered: ${msgBody}`);
+        console.log(`selectedList.name: ${selectedList.name}`);
         if (message.length <= 1) {
           parseCallBack(res, "Error: Add Select requires a list name");
           return
@@ -208,6 +210,7 @@ function parseMessage(msgBody, numFrom, res){
 //END SELECT
     case "add":
         console.log(`Add triggered: ${msgBody}`);
+        console.log(`selectedList.name: ${selectedList.name}`);
         if (message.length <= 1) {
           parseCallBack(res, "Error: Add command requires a name");
           return
@@ -317,6 +320,7 @@ function parseMessage(msgBody, numFrom, res){
 // start Remove
 case "remove":
     console.log(`Remove triggered: ${msgBody}`);
+    console.log(`selectedList.name: ${selectedList.name}`);
     if (message.length <= 1) {
       parseCallBack(res, "Error: Remove command requires a name");
       return
