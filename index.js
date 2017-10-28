@@ -62,28 +62,29 @@ function parseMessage(msgBody, numFrom, res){
         }
         console.log("Found the following records");
         console.log(docs)
+
         if (docs.length == 0) {
           parseCallBack(res, "No lists found");
         }
-        else {
-          collection.find({selected: true}).toArray(function(err, selectedDocs) {
-            if (err != null) {
-              console.log(`Error: ${err}`);
-              return
-            }
-
-            var selectedListName = null;
-            if (selectedDocs.length == 0) {
-              console.log("No selected list found");
-            } else if (selectedDocs.length > 1) {
-              console.log("More than one selected list found:");
-              console.log(selectedDocs);
-            } else {
-        //      console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
-            //  selectedListName = selectedDocs[0].name;
-              selectedList.name = selectedDocs[0].name;
-
-            }
+        // else {
+        //   // collection.find({selected: true}).toArray(function(err, selectedDocs) {
+        //   //   if (err != null) {
+        //   //     console.log(`Error: ${err}`);
+        //   //     return
+        //   //   }
+        //
+        // //    var selectedListName = null;
+        // //    if (selectedDocs.length == 0) {
+        // //      console.log("No selected list found");
+        // //    } else if (selectedDocs.length > 1) {
+        // //      console.log("More than one selected list found:");
+        // //      console.log(selectedDocs);
+        // //  } else {
+        // //      console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
+        //     //  selectedListName = selectedDocs[0].name;
+        // //      selectedList.name = selectedDocs[0].name;
+        // 
+        //     }
 
             var resBody = docs.map(function(x) {
               if (x.name == selectedList.name) { return x.name + '*';}
@@ -192,6 +193,7 @@ function parseMessage(msgBody, numFrom, res){
             }
             //selected list by default is latest created list
             selectedList.name = name;
+
 
             db.collection(numFrom).insertOne(doc, function(err, r) {
               assert.equal(null, err);
