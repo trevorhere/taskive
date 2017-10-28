@@ -2,7 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var twilio = require('twilio');
 var keys = require("./keys");
-
+const MongoClient = require('mongodb').MongoClient
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 var app = express();
 
@@ -16,8 +16,6 @@ var authToken = keys['authToken'];
 var client = require('twilio')(accountSid, authToken);
 
 app.set('port', process.env.PORT || 8080);
-skive/index.js:103:4)
-    at Layer.handle [as handle_request] (
 
 //TEST FUNCTIONS
 function sayHello(){
@@ -104,6 +102,13 @@ app.post('/message', (req, res) => {
 
 
 
-app.listen(app.get('port'), function(){
-  console.log("app is running on: " + app.get('port'))
+var db;
+
+MongoClient.connect('mongodb://dbuser:rG4y8br#k^F25W7gFfnXcKaUYZhsR@ds237855.mlab.com:37855/taskivedb', (err, database) => {
+  if (err) return console.log(err)
+  db = database
+  app.listen(app.get('port'), function(){
+    console.log("app is running on: " + app.get('port'))
+  })
 });
+
