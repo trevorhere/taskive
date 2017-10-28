@@ -27,6 +27,21 @@ function sendErrorMessage(){
     return "Sorry, we don\'t recognize that command. Send \"COMMANDS\" to view default commands";
 };
 
+var selectedList = class selectedList{
+  constructor(listName){
+      this.listName = listName;
+  }
+
+  getListName(){
+    return this.listName;
+  };
+
+  updateName(a){
+    this.listName = a;
+  }
+
+};
+
 function parseMessage(msgBody, numFrom, res){
    var message = msgBody.split(" ");
    var keyCommand = message[0].toLowerCase();
