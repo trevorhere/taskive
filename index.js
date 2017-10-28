@@ -86,7 +86,7 @@ function parseMessage(msgBody, numFrom, res){
             }
 
             var resBody = docs.map(function(x) {
-              if (selectedListName && x.name == selectedList.name) { return x.name + '*';}
+              if (x.name == selectedList.name) { return x.name + '*';}
               else { return x.name; }
             }).join("\n");
 
