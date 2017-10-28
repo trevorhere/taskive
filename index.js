@@ -117,6 +117,10 @@ function parseMessage(msgBody, numFrom, res){
             return;
           }
 
+          console.log("//docs:\n");
+          console.log(docs);
+          console.log("\n//docs//");
+
 
           // var selectedListName = null;
           // if (selectedDocs.length == 0) {
