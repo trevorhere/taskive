@@ -48,8 +48,8 @@ function parseMessage(msgBody, numFrom, res){
         parseCallBack(res, val);
         break;
     case "lists":
-      var collection = db.collection('documents');
-      // Find some documents
+      var collection = db.collection(numFrom);
+      // Find lists for this numbers
       collection.find({}).toArray(function(err, docs) {
         if (err != null) {
           console.log(`Error: ${err}`);
@@ -95,7 +95,7 @@ function parseMessage(msgBody, numFrom, res){
           assert.equal(1, r.insertedCount);
           parseCallBack(res, `Successfully created list: ${name}`);
         } else {
-
+          var name = message.slice(1).join(" ");
         }        
         break;
     case "remove":
