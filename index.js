@@ -16,7 +16,7 @@ var authToken = keys['authToken'];
 var client = require('twilio')(accountSid, authToken);
 
 app.set('port', process.env.PORT || 8080);
-
+console.log(process.env.PORT);
 
 //TEST FUNCTIONS
 function sayHello(){
@@ -51,8 +51,12 @@ app.post('/message', (req, res) => {
   // Start our TwiML response.
   const twiml = new MessagingResponse();
 
-   var msgBody = req.body.Body;
-   console.log(msgBody);
+  console.log("Req");
+  console.log(req);
+  console.log(req.body);
+
+  var msgBody = req.body.Body;
+  console.log(msgBody);
   // Add a text message.
   const msg = twiml.message('What is up dude?');//
 
