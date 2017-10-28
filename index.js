@@ -79,6 +79,8 @@ function parseMessage(msgBody, numFrom, res){
               return
             }
 
+            console.log(`SelectedDocs[0]: ${selectedDocs[0]}`);
+
             var selectedListName = selectedDocs.name;
             var resBody = docs.map(function(x) {
               if (x.name == selectedListName) { return x.name + '*';}
