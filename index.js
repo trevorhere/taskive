@@ -273,7 +273,7 @@ function parseMessage(msgBody, numFrom, res){
             });
             db.collection(numFrom).updateOne(query, {items:newItems}, {upsert:true, w: 1}, function(err, r) {
               assert.equal(null, err);
-              assert.equal(1, r.insertedCount);
+              assert.equal(1, r.result.n);
               console.log(r.result);
               var resBody = item + ' added to ' + selectedList.name;
               console.log(`ResBody: ${resBody}`);
