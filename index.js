@@ -237,13 +237,13 @@ function parseMessage(msgBody, numFrom, res){
             }).join("\n");
 
             console.log(`ResBody: ${resBody}`);
-            var resBody = 'Lists:\n' + resBody;
+            var resBody = item + ' added to ' selectedList.name;
             parseCallBack(res, resBody);
 
           });
 
-            console.log(collection.find(query));
-            console.log(item);
+        //    console.log(collection.find(query));
+      //      console.log(item);
           //   console.log(collection);
           // Find lists for this numbers
           // collection.find({}).toArray(function(err, docs) {
