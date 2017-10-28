@@ -26,33 +26,33 @@ function sendErrorMessage(){
     return "Sorry, we don\'t recognize that command. Send \"HELP\" to view default commands";
 };
 
-function parseMessage(a){
-   var  message = a.split(" ");
+function parseMessage(msgBody){
+   var message = msgBody.split(" ");
    var keyCommand = message[0].toLowerCase();
 
 
 
    switch(keyCommand) {
     case "help":
-        console.log(a);
+        console.log(msgBody);
         break;
     case "lists":
-        console.log(a);
+        console.log(msgBody);
         break;
     case "show":
-        console.log(a);
+        console.log(msgBody);
         break;
     case "select":
-        console.log(a);
+        console.log(msgBody);
         break;
     case "add":
-        console.log(a);
+        console.log(msgBody);
         break;
     case "remove":
-        console.log(a);
+        console.log(msgBody);
         break;
     case "complete":
-        console.log(a);
+        console.log(msgBody);
         break;
     default:
       return sendErrorMessage();
@@ -87,10 +87,10 @@ app.post('/message', (req, res) => {
   // Start our TwiML response.
   const twiml = new MessagingResponse();
 
-   var msgBody = req.body.Body;
-
+  var msgBody = req.body.Body;
+  var fromNumber = req.body.From;
   // Add a text message.
-  const msg = twiml.message(parseMessage(msgBody));//
+  const msg = twiml.message(parseMessage(msgBody, fromNumber));//
 
   // Add a picture message.
 //  msg.media('https://www.softpaws.com/template/images/landing_page/july_cat_image.jpg');
