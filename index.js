@@ -95,9 +95,17 @@ function parseMessage(msgBody, numFrom, res){
     case "view":
         console.log(`View triggered: ${msgBody}`);
         break;
+// START SELECT
     case "select":
         console.log(`Select triggered: ${msgBody}`);
+        if (message.length <= 1) {
+          parseCallBack(res, "Error: Add Select requires a list name");
+          return
+        }
+
+
         break;
+//END SELECT
     case "add":
         console.log(`Add triggered: ${msgBody}`);
         if (message.length <= 1) {
