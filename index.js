@@ -92,6 +92,7 @@ function parseMessage(msgBody, numFrom, res){
             } else {
               console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
               selectedListName = selectedDocs[0].name;
+
             }
 
             var resBody = docs.map(function(x) {
@@ -132,6 +133,8 @@ function parseMessage(msgBody, numFrom, res){
             return;
           }
 
+          selectedList.updateName("test");
+          console.log(selectedList);
           console.log("//docs:\n");
           console.log(docs);
           SelectedDocs[0].name = docs.name;
