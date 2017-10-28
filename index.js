@@ -211,9 +211,9 @@ function parseMessage(msgBody, numFrom, res){
 
           // add list item to selected list start
 
-          var collection = db.collection(numFrom);
+          var collection = db.collection.find({name: selectedList.name});
 
-          console.log(name);
+          console.log(item);
           console.log(collection);
           // Find lists for this numbers
           // collection.find({}).toArray(function(err, docs) {
