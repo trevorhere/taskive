@@ -28,9 +28,7 @@ function sendErrorMessage(){
 };
 
 var selectedList = {
-
-  name:""
-
+  name: "";
 };
 
 function parseMessage(msgBody, numFrom, res){
@@ -96,17 +94,7 @@ function parseMessage(msgBody, numFrom, res){
             parseCallBack(res, resBody);
           });
         }
-      });class selectedList{
-   listName = null;
-
-  getListName(){
-    return this.listName;
-  };
-  updateName(a){
-    this.listName = a;
-  }
-
-};
+      });
         console.log(`Lists triggered: ${msgBody}`);
         break;
     case "view":
