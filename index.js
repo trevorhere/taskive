@@ -62,10 +62,33 @@ function parseMessage(msgBody, numFrom, res){
           parseCallBack(res, "No lists found");
         }
         else {
-          var resBody = docs.map(function(x) {return x.name}).join("\n");
-          console.log(`ResBody: ${resBody}`);
-          var resBody = 'Lists:\n' + resBody;
-          parseCallBack(res, resBody);
+          collection.find({selected: true}).toArray(function(err, selectedDocs) {
+            if (err != null) {
+              console.log(`Error: ${err}`);
+              return
+            }
+          
+            if (selectedDocs.length == 0) {
+              console.log("No selected list found");
+              return
+            }
+
+            if (selectedDocs.length > 1) {
+              console.log("More than one selected list found:");
+              console.log(selectedDocs);
+              return
+            }
+
+            var selectedListName = selectedDocs.name;
+            var resBody = docs.map(function(x) {
+              if (x.name == selectedListName) { return x.name + '*';}
+              else { return x.name; }
+            }).join("\n");
+
+            console.log(`ResBody: ${resBody}`);
+            var resBody = 'Lists:\n' + resBody;
+            parseCallBack(res, resBody);
+          });
         }
       });
         console.log(`Lists triggered: ${msgBody}`);
@@ -89,18 +112,30 @@ function parseMessage(msgBody, numFrom, res){
             return
           }
 
-          var name = message.slice(2).join(" ");
+          var collection = db.collection(numFrom);
+          // Find lists for this numbers
+          collection.find({}).toArray(function(err, docs) {
+            if (err != null) {
+              console.log(`Error: ${err}`);
+              return
+            }
 
-          // Insert a single document
-          var doc = {
-            'name': name,
-            items: []
-          }
-          db.collection(numFrom).insertOne(doc, function(err, r) {
-            assert.equal(null, err);
-            assert.equal(1, r.insertedCount);
-            console.log(r.result);
-            parseCallBack(res, `Successfully created list: ${name}`);
+            var name = message.slice(2).join(" ");
+            var doc = {
+              'name': name,
+              items: []
+            }
+
+            if (docs.length == 0) {
+              doc['selected'] = true;
+            }
+
+            db.collection(numFrom).insertOne(doc, function(err, r) {
+              assert.equal(null, err);
+              assert.equal(1, r.insertedCount);
+              console.log(r.result);
+              parseCallBack(res, `Successfully created list: ${name}`);
+            });
           });
         } else {
           var name = message.slice(1).join(" ");
