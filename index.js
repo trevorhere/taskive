@@ -137,7 +137,39 @@ function parseMessage(msgBody, numFrom, res){
             });
           });
         } else {
+
+          // add list item to selected list start
+
+          var collection = db.collection(numFrom);
           var name = message.slice(1).join(" ");
+          console.log(name);
+          // Find lists for this numbers
+          // collection.find({}).toArray(function(err, docs) {
+          //   if (err != null) {
+          //     console.log(`Error: ${err}`);
+          //     return
+          //   }
+          //
+          //   var name = message.slice(2).join(" ");
+          //   var doc = {
+          //     'name': name,
+          //     items: []
+          //   }
+          //
+          //   if (docs.length == 0) {
+          //     doc['selected'] = true;
+          //   }
+          //
+          //   db.collection(numFrom).insertOne(doc, function(err, r) {
+          //     assert.equal(null, err);
+          //     assert.equal(1, r.insertedCount);
+          //     console.log(r.result);
+          //     parseCallBack(res, `Successfully created list: ${name}`);
+          //   });
+          // });
+
+          //add list item END
+
         }
         break;
 // start Remove
