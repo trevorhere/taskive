@@ -123,6 +123,11 @@ function parseMessage(msgBody, numFrom, res){
             return;
           }
 
+
+       if(name == selectedList.name){
+         parseCallBack(res, `That list is already selected`);
+       }
+
           //selectedList.updateName("test");
           console.log("selectedList.name: " + selectedList.name);
           console.log("//docs:\n");
