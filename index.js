@@ -61,7 +61,10 @@ function parseMessage(msgBody, numFrom, res){
           parseCallBack(res, "No lists found");
         }
         else {
-          parseCallBack(res, docs.toString());
+          var resBody = docs.reduce(function(accumulator, currentValue) {
+              return accumulator + ' ' + currentValue;
+          });
+          parseCallBack(res, resBody);
         }
       });
         console.log(`Lists triggered: ${msgBody}`);
@@ -74,6 +77,26 @@ function parseMessage(msgBody, numFrom, res){
         break;
     case "add":
         console.log(`Add triggered: ${msgBody}`);
+        if (message.length <= 1) {
+          parseCallBack(res, "Error: Add command requires a name");
+          return
+        }
+
+        if (message[1].toLowerCase() == 'list') {
+          if (message.length <= 2) {
+            parseCallBack(res, "Error: Add list command requires a name");
+            return
+          }
+
+          var name = message.slice(2).join(" ");
+
+          // Insert a single document
+          var r = yield db.collection(numFrom).insertOne({name: []});
+          assert.equal(1, r.insertedCount);
+          parseCallBack(res, `Successfully created list: ${name}`);
+        } else {
+
+        }        
         break;
     case "remove":
         console.log(`Remove triggered: ${msgBody}`);
