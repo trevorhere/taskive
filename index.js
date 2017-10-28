@@ -262,22 +262,22 @@ var resBody;
             }
 
 
-
-            var resBody = docs.map(function(x) {
+            var newItems = null;
+            docs.forEach(function(x) {
               if (x.name == selectedList.name) {
-
-              x.items.push(item);
-              console.log("items: ");
-              console.log(x.items);
-              }
-
-            }).join("\n");
-
-            console.log(`ResBody: ${resBody}`);
-            var resBody = item + ' added to ' + selectedList.name;
-            parseCallBack(res, resBody);
-
-
+                  newItems = x.items;
+                  newitems.push(item);
+                  console.log(`Items: ${newItems}`);
+                }
+            });
+            db.collection(numFrom).updateOne(query, {items:newItems}, {upsert:true, w: 1}, function(err, r) {
+              assert.equal(null, err);
+              assert.equal(1, r.insertedCount);
+              console.log(r.result);
+              var resBody = item + ' added to ' + selectedList.name;
+              console.log(`ResBody: ${resBody}`);
+              parseCallBack(res, resBody);
+            });
           });
 
         //    console.log(collection.find(query));
