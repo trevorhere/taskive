@@ -86,7 +86,7 @@ function parseMessage(msgBody, numFrom, res){
             }
 
             var resBody = docs.map(function(x) {
-              if (selectedListName && x.name == selectedListName) { return x.name + '*';}
+              if (selectedListName && x.name == selectedList.name) { return x.name + '*';}
               else { return x.name; }
             }).join("\n");
 
@@ -126,6 +126,9 @@ function parseMessage(msgBody, numFrom, res){
 
        if(name == selectedList.name){
          parseCallBack(res, `That list is already selected`);
+       } else {
+
+
        }
 
           //selectedList.updateName("test");
