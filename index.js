@@ -83,6 +83,7 @@ function parseMessage(msgBody, numFrom, res){
 
 function parseCallBack(res, resBody) {
   // Add a text message.
+  const twiml = new MessagingResponse();
   const msg = twiml.message(resBody);//
 
   // Add a picture message.
@@ -118,7 +119,6 @@ app.get('/', function(req, res){
 app.post('/message', (req, res) => {
 
   // Start our TwiML response.
-  const twiml = new MessagingResponse();
   var msgBody = req.body.Body;
   var fromNumber = req.body.From;
   parseMessage(msgBody, fromNumber, res);
