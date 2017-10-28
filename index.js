@@ -134,7 +134,7 @@ function parseMessage(msgBody, numFrom, res){
           }
 
           //selectedList.updateName("test");
-          console.log(selectedList);
+          //console.log(selectedList);
           console.log("//docs:\n");
           console.log(docs);
           //SelectedDocs[0].name = docs.name;
