@@ -28,7 +28,7 @@ function sendErrorMessage(){
 };
 
 var selectedList = {
-  name: "";
+  name: "",
 };
 
 function parseMessage(msgBody, numFrom, res){
