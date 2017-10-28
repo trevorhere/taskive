@@ -158,6 +158,7 @@ case "remove":
       }
 
       var name = message.slice(2).join(" ");
+
       var collection = db.collection(numFrom);
       // Find lists for this numbers
       var query = {'name':name};
@@ -172,7 +173,7 @@ case "remove":
           parseCallBack(res, `No List or more than one list with that name found` );
           return;
         }
-
+        console.log(docs[0].name);
         db.collection(numFrom).deleteOne(query, function(err, r) {
           assert.equal(null, err);
           assert.equal(1, r.result.n);
