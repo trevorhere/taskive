@@ -63,7 +63,7 @@ function parseMessage(msgBody, numFrom, res){
         }
         else {
           var resBody = docs.reduce(function(accumulator, currentValue) {
-              return accumulator + ' ' + currentValue;
+              return accumulator + ' ' + currentValue.name;
           });
           parseCallBack(res, resBody);
         }
@@ -92,8 +92,10 @@ function parseMessage(msgBody, numFrom, res){
           var name = message.slice(2).join(" ");
 
           // Insert a single document
-          var doc = {}
-          doc[name] = [];
+          var doc = {
+            'name': name,
+            items: []
+          }
           db.collection(numFrom).insertOne(doc, function(err, r) {
             assert.equal(null, err);
             assert.equal(1, r.insertedCount);
