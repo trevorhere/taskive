@@ -62,8 +62,9 @@ function parseMessage(msgBody, numFrom, res){
           parseCallBack(res, "No lists found");
         }
         else {
-          var resBody = docs.map(function(x) {return x.name}).join(" ")
+          var resBody = docs.map(function(x) {return x.name}).join("\n");
           console.log(`ResBody: ${resBody}`);
+          var resBody = 'Lists:\n' + resBody;
           parseCallBack(res, resBody);
         }
       });
