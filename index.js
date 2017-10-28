@@ -23,6 +23,43 @@ function sayHello(){
   console.log("hello");
 }
 
+function sendErrorMessage(){
+    return "Sorry, we don\'t recognize that command. Send \"HELP\" to view default commands";
+};
+
+function parseMessage(a){
+   var  message = a.split(" ");
+   var keyCommand = message[0].toLowerCase();
+
+
+
+   switch(keyCommand) {
+    case "help":
+        console.log(a);
+        break;
+    case "lists":
+        console.log(a);
+        break;
+    case "show":
+        console.log(a);
+        break;
+    case "select":
+        console.log(a);
+        break;
+    case "add":
+        console.log(a);
+        break;
+    case "remove":
+        console.log(a);
+        break;
+    case "complete":
+        console.log(a);
+        break;
+    default:
+      return sendErrorMessage();
+  };
+};
+
 
 
 //TEST FUNCTIONS
@@ -52,12 +89,12 @@ app.post('/message', (req, res) => {
   const twiml = new MessagingResponse();
 
    var msgBody = req.body.Body;
-   console.log(msgBody);
+
   // Add a text message.
-  const msg = twiml.message('What is up dude?');//
+  const msg = twiml.message(parseMessage(msgBody));//
 
   // Add a picture message.
-  msg.media('https://www.softpaws.com/template/images/landing_page/july_cat_image.jpg');
+//  msg.media('https://www.softpaws.com/template/images/landing_page/july_cat_image.jpg');
 
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
