@@ -104,6 +104,42 @@ function parseMessage(msgBody, numFrom, res){
         break;
     case "view":
         console.log(`View triggered: ${msgBody}`);
+
+
+    //    var query = {name:selectedList.name};
+        // add list item to selected list start
+
+        var collection = db.collection(numFrom);
+
+        collection.find({}).toArray(function(err, docs) {
+          if (err != null) {
+            console.log(`Error: ${err}`);
+            return
+          }
+
+          if (docs.length == 0) {
+            parseCallBack(res, "No lists found");
+          }
+
+          var resBody = docs.map(function(x) {
+            if (x.name == selectedList.name) {
+                x.items.map(function(x){
+                  return x;
+            })  ;
+
+            }
+
+          }).join("\n");
+
+          console.log(`ResBody: ${resBody}`);
+          var resBody = item + ' added to ' + selectedList.name;
+          parseCallBack(res, resBody);
+
+
+        });
+
+
+
         break;
 // START SELECT
     case "select":
