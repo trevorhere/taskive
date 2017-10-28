@@ -38,7 +38,7 @@ function parseMessage(msgBody, numFrom, res){
         The following commands are available:
         1. HELP: Show this message
         2. LISTS: Show your lists (current list marked with *)
-        3. SHOW: Show items in current lists
+        3. View: View items in current lists
         4. SELECT [0]: Select the list named by [0]
         5. ADD [0]: Adds [0] as an item to current list
         6. ADD LIST [0]: Adds [0] as a new list
@@ -92,8 +92,8 @@ function parseMessage(msgBody, numFrom, res){
       });
         console.log(`Lists triggered: ${msgBody}`);
         break;
-    case "show":
-        console.log(`Show triggered: ${msgBody}`);
+    case "view":
+        console.log(`View triggered: ${msgBody}`);
         break;
     case "select":
         console.log(`Select triggered: ${msgBody}`);
