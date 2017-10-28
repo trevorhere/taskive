@@ -65,6 +65,7 @@ function parseMessage(msgBody, numFrom, res){
           var resBody = docs.reduce(function(accumulator, currentValue) {
               return accumulator + ' ' + currentValue.name;
           });
+          console.log(`ResBody: ${resBody}`);
           parseCallBack(res, resBody);
         }
       });
