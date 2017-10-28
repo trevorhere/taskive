@@ -103,6 +103,42 @@ function parseMessage(msgBody, numFrom, res){
           return
         }
 
+        var name = message.slice(1).join(" ");
+        var collection = db.collection(numFrom);
+        var query = {'name':name};
+
+        collection.find(query).toArray(function(err, docs) {
+          if (err != null) {
+            console.log(`Error: ${err}`);
+            return
+          }
+        if (docs.length != 1) {
+            parseCallBack(res, `No List or more than one list with that name found` );
+            return;
+          }
+
+
+          // var selectedListName = null;
+          // if (selectedDocs.length == 0) {
+          //   console.log("No selected list found");
+          // } else if (selectedDocs.length > 1) {
+          //   console.log("More than one selected list found:");
+          //   console.log(selectedDocs);
+          // } else {
+          //   console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
+          //   selectedListName = selectedDocs[0].name;
+          // }
+          //
+          // var resBody = docs.map(function(x) {
+          //   if (selectedListName && x.name == selectedListName) { return x.name + '*';}
+          //   else { return x.name; }
+          // }).join("\n");
+          //
+          // console.log(`ResBody: ${resBody}`);
+          // var resBody = 'Lists:\n' + resBody;
+          // parseCallBack(res, resBody);
+        });
+
 
         break;
 //END SELECT
