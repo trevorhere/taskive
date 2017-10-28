@@ -57,7 +57,7 @@ function parseMessage(msgBody, numFrom, res){
         }
         console.log("Found the following records");
         console.log(docs)
-        parseCallBack(res, docs);
+        parseCallBack(res, docs.toString());
       });
         console.log(`Lists triggered: ${msgBody}`);
         break;
