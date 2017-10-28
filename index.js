@@ -27,15 +27,9 @@ function sendErrorMessage(){
     return "Sorry, we don\'t recognize that command. Send \"COMMANDS\" to view default commands";
 };
 
-var selectedList = class selectedList{
-  var listName = null;
+var selectedList = {
 
-  getListName(){
-    return this.listName;
-  };
-  updateName(a){
-    this.listName = a;
-  }
+  name:""
 
 };
 
@@ -102,7 +96,17 @@ function parseMessage(msgBody, numFrom, res){
             parseCallBack(res, resBody);
           });
         }
-      });
+      });class selectedList{
+   listName = null;
+
+  getListName(){
+    return this.listName;
+  };
+  updateName(a){
+    this.listName = a;
+  }
+
+};
         console.log(`Lists triggered: ${msgBody}`);
         break;
     case "view":
@@ -131,7 +135,7 @@ function parseMessage(msgBody, numFrom, res){
           }
 
           //selectedList.updateName("test");
-          console.log(selectedList.listName);
+          console.log("selectedList.name: " + selectedList.name);
           console.log("//docs:\n");
           console.log(docs);
           //SelectedDocs[0].name = docs.name;
