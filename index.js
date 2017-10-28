@@ -13,8 +13,8 @@ var app = express();
 app.use(bodyParser.urlencoded({extended:false}));
 
 // Twilio Credentials
-var accountSid = 'AC32dff523f958932d42897186ce22f286';
-var authToken = '6ea5683c97d8f7b38d9d1ec2770c1143';
+var accountSid = 'CHANGE_ME';
+var authToken = 'CHANGE_ME';
 
 //require the Twilio module and create a REST client
 var client = require('twilio')(accountSid, authToken);
