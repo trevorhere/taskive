@@ -62,9 +62,7 @@ function parseMessage(msgBody, numFrom, res){
           parseCallBack(res, "No lists found");
         }
         else {
-          var resBody = docs.reduce(function(accumulator, currentValue) {
-              return accumulator + ' ' + currentValue.name;
-          });
+          var resBody = docs.map(function(x) {return x.name}).join(" ")
           console.log(`ResBody: ${resBody}`);
           parseCallBack(res, resBody);
         }
