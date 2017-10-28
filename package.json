@@ -1,0 +1,24 @@
+{
+  "name": "taskive",
+  "version": "1.0.0",
+  "description": "An sms controlled task management system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trevorhere/taskive.git"
+  },
+  "author": "Lane, Lane, and Lane",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trevorhere/taskive/issues"
+  },
+  "homepage": "https://github.com/trevorhere/taskive#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "twilio": "^3.9.0"
+  }
+}
