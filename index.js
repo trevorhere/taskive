@@ -193,10 +193,6 @@ function parseMessage(msgBody, numFrom, res){
             //selected list by default is latest created list
             selectedList.name = name;
 
-            if (docs.length == 0) {
-              doc['selected'] = true;
-            }
-
             db.collection(numFrom).insertOne(doc, function(err, r) {
               assert.equal(null, err);
               assert.equal(1, r.insertedCount);
