@@ -274,7 +274,7 @@ function parseMessage(msgBody, numFrom, res){
                   console.log(`Items: ${newItems}`);
                 }
             });
-            db.collection(numFrom).updateOne(query, {items:newItems}, {upsert:true, w: 1}, function(err, r) {
+            db.collection(numFrom).updateOne(query, {$set:{items:newItems}}, function(err, r) {
               assert.equal(null, err);
               assert.equal(1, r.result.n);
               console.log(r.result);
