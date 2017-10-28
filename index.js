@@ -132,7 +132,7 @@ function parseMessage(msgBody, numFrom, res){
           }).join("\n");
 
           console.log(`ResBody: ${resBody}`);
-         var resBody = selectedList.name + ": \n" resBody.join(" \n");
+         var resBody = selectedList.name + ": \n" + resBody.join(" \n");
 
           parseCallBack(res, resBody);
 
