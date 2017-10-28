@@ -77,7 +77,7 @@ function parseMessage(msgBody, numFrom, res){
           parseCallBack(res, "No lists found");
         }
         else {
-          collection.find({selected: true}).toArray(function(err, selected) {
+          collection.find({selected: true}).toArray(function(err, selectedDocs) {
             if (err != null) {
               console.log(`Error: ${err}`);
               return
@@ -92,10 +92,6 @@ function parseMessage(msgBody, numFrom, res){
             } else {
               console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
               selectedListName = selectedDocs[0].name;
-              selectedList.updateName(selectedDocs[0].name)
-              console.log("////\n");
-              console.log(selectedList);
-              console.log("\n////");
             }
 
             var resBody = docs.map(function(x) {
