@@ -67,7 +67,7 @@ function parseMessage(msgBody, numFrom, res){
               console.log(`Error: ${err}`);
               return
             }
-          
+
             if (selectedDocs.length == 0) {
               console.log("No selected list found");
               return
@@ -141,11 +141,51 @@ function parseMessage(msgBody, numFrom, res){
           });
         } else {
           var name = message.slice(1).join(" ");
-        }        
+        }
         break;
-    case "remove":
-        console.log(`Remove triggered: ${msgBody}`);
-        break;
+// start Remove
+case "remove":
+    console.log(`Remove triggered: ${msgBody}`);
+    if (message.length <= 1) {
+      parseCallBack(res, "Error: Remove command requires a name");
+      return
+    }
+
+    if (message[1].toLowerCase() == 'list') {
+      if (message.length <= 2) {
+        parseCallBack(res, "Error: Remove list command requires a name");
+        return
+      }
+
+      var name = message.slice(2).join(" ");
+      var collection = db.collection(numFrom);
+      // Find lists for this numbers
+      var query = {'name':name};
+
+      collection.find(query).toArray(function(err, docs) {
+        if (err != null) {
+          console.log(`Error: ${err}`);
+          return
+        }
+
+        if (docs.length != 1) {
+          parseCallBack(res, `No List or more than one list with that name found` );
+          return;
+        }
+
+        db.collection(numFrom).deleteOne(query, function(err, r) {
+          assert.equal(null, err);
+          assert.equal(1, r.result.n);
+          console.log(r.result);
+          parseCallBack(res, `Successfully deleted list: ${name}`);
+        });
+      });
+    } else {
+      var name = message.slice(1).join(" ");
+    }
+    break;
+
+//end REMOVE
     case "complete":
         console.log(`Complete triggered: ${msgBody}`);
         break;
@@ -201,8 +241,8 @@ app.post('/message', (req, res) => {
 var db;
 
 MongoClient.connect(
-    `mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb`, 
-    (err, database) => 
+    `mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb`,
+    (err, database) =>
 {
   if (err) return console.log(err)
   db = database
@@ -210,4 +250,3 @@ MongoClient.connect(
     console.log("app is running on: " + app.get('port'))
   })
 });
-
