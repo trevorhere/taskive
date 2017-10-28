@@ -133,7 +133,7 @@ function parseMessage(msgBody, numFrom, res){
             return;
           }
 
-          selectedList.updateName("test");
+          //selectedList.updateName("test");
           console.log(selectedList);
           console.log("//docs:\n");
           console.log(docs);
