@@ -1,14 +1,16 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var twilio = require('twilio');
+var keys = require("./keys");
+
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 var app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
 
 // Twilio Credentials
-var accountSid = 'CHANGE_ME';
-var authToken = 'CHANGE_ME';
+var accountSid = keys['accountSid'];
+var authToken = keys['authToken'];
 
 //require the Twilio module and create a REST client
 var client = require('twilio')(accountSid, authToken);
