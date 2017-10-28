@@ -67,6 +67,8 @@ function parseMessage(msgBody, numFrom, res){
         if (docs.length == 0) {
           parseCallBack(res, "No lists found");
         }
+
+        //SEGMENT BELOW IS SEANS OLD CODE FOR FINDIND SELECTED LIST
         // else {
         //   // collection.find({selected: true}).toArray(function(err, selectedDocs) {
         //   //   if (err != null) {
@@ -205,11 +207,14 @@ function parseMessage(msgBody, numFrom, res){
           });
         } else {
 
+          var item = message.slice(1).join(" ");
+
           // add list item to selected list start
 
           var collection = db.collection(numFrom);
-          var name = message.slice(1).join(" ");
+
           console.log(name);
+          console.log(collection);
           // Find lists for this numbers
           // collection.find({}).toArray(function(err, docs) {
           //   if (err != null) {
