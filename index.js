@@ -26,7 +26,7 @@ function sendErrorMessage(){
     return "Sorry, we don\'t recognize that command. Send \"COMMANDS\" to view default commands";
 };
 
-function parseMessage(msgBody, numFrom){
+function parseMessage(msgBody, numFrom, res){
    var message = msgBody.split(" ");
    var keyCommand = message[0].toLowerCase();
 
@@ -47,6 +47,14 @@ function parseMessage(msgBody, numFrom){
         `
         break;
     case "lists":
+      var collection = db.collection('documents');
+      // Find some documents
+      collection.find({}).toArray(function(err, docs) {
+        assert.equal(err, null);
+        console.log("Found the following records");
+        console.log(docs)
+        parseCallBack(docs);
+      });
         console.log(`Lists triggered: ${msgBody}`);
         break;
     case "show":
@@ -66,10 +74,20 @@ function parseMessage(msgBody, numFrom){
         break;
     default:
       console.log(`None triggered: ${msgBody}`);
-      return sendErrorMessage();
+      parseCallBack(sendErrorMessage());
   };
 };
 
+function parseCallBack(res, resBody) {
+  // Add a text message.
+  const msg = twiml.message(resBody);//
+
+  // Add a picture message.
+  //  msg.media('https://www.softpaws.com/template/images/landing_page/july_cat_image.jpg');
+
+  res.writeHead(200, {'Content-Type': 'text/xml'});
+  res.end(twiml.toString());
+}
 
 
 //TEST FUNCTIONS
@@ -92,22 +110,15 @@ app.get('/', function(req, res){
 });
 
 
-//RECIEVE MESSAGE
+
+//RECEIVE MESSAGE
 app.post('/message', (req, res) => {
 
   // Start our TwiML response.
   const twiml = new MessagingResponse();
-
   var msgBody = req.body.Body;
   var fromNumber = req.body.From;
-  // Add a text message.
-  const msg = twiml.message(parseMessage(msgBody, fromNumber));//
-
-  // Add a picture message.
-//  msg.media('https://www.softpaws.com/template/images/landing_page/july_cat_image.jpg');
-
-  res.writeHead(200, {'Content-Type': 'text/xml'});
-  res.end(twiml.toString());
+  parseMessage(msgBody, fromNumber, res);
 });
 
 var db;
