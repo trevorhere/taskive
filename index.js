@@ -93,11 +93,13 @@ function parseMessage(msgBody, numFrom, res){
           console.log(`Name: ${somethingElse}`);
 
           // Insert a single document
-          db.collection(numFrom).insertOne({somethingElse: []}, function(err, r) {
+          var doc = {}
+          doc[name] = [];
+          db.collection(numFrom).insertOne(doc, function(err, r) {
             assert.equal(null, err);
             assert.equal(1, r.insertedCount);
             console.log(r.result);
-            parseCallBack(res, `Successfully created list: ${r.result}`);
+            parseCallBack(res, `Successfully created list: ${name}`);
           });
         } else {
           var somethingElse = message.slice(1).join(" ");
