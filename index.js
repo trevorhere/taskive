@@ -66,6 +66,7 @@ function parseMessage(msgBody, numFrom, res){
 
         if (docs.length == 0) {
           parseCallBack(res, "No lists found");
+          return
         }
 
         //SEGMENT BELOW IS SEANS OLD CODE FOR FINDIND SELECTED LIST
@@ -121,6 +122,7 @@ function parseMessage(msgBody, numFrom, res){
 
           if (docs.length > 1) {
             parseCallBack(res, "More than one selected list found");
+            return
           }
 
           var items;
