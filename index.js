@@ -91,9 +91,11 @@ function parseMessage(msgBody, numFrom, res){
           var name = message.slice(2).join(" ");
 
           // Insert a single document
-          var r = yield db.collection(numFrom).insertOne({name: []});
-          assert.equal(1, r.insertedCount);
-          parseCallBack(res, `Successfully created list: ${name}`);
+          db.collection(numFrom).insertOne({name: []}, function(err, r) {
+            test.equal(null, err);
+            test.equal(1, r.insertedCount);
+            parseCallBack(res, `Successfully created list: ${r.result}`);
+          });
         } else {
           var name = message.slice(1).join(" ");
         }        
