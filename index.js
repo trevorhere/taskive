@@ -28,14 +28,11 @@ function sendErrorMessage(){
 };
 
 var selectedList = class selectedList{
-  constructor(listName){
-      this.listName = listName;
-  }
+  var listName = null;
 
   getListName(){
     return this.listName;
   };
-
   updateName(a){
     this.listName = a;
   }
@@ -134,7 +131,7 @@ function parseMessage(msgBody, numFrom, res){
           }
 
           //selectedList.updateName("test");
-          console.log(selectedList);
+          console.log(selectedList.listName);
           console.log("//docs:\n");
           console.log(docs);
           //SelectedDocs[0].name = docs.name;
