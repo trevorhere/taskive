@@ -104,14 +104,11 @@ function parseMessage(msgBody, numFrom, res){
         break;
     case "view":
         console.log(`View triggered: ${msgBody}`);
-
-
-    //    var query = {name:selectedList.name};
-        // add list item to selected list start
-
+        
+        var query = {name:selectedList.name};
         var collection = db.collection(numFrom);
 
-        collection.find({}).toArray(function(err, docs) {
+        collection.find(query).toArray(function(err, docs) {
           if (err != null) {
             console.log(`Error: ${err}`);
             return
@@ -119,24 +116,19 @@ function parseMessage(msgBody, numFrom, res){
 
           if (docs.length == 0) {
             parseCallBack(res, "No lists found");
+            return
+          } 
+
+          if (docs.length > 1) {
+            parseCallBack(res, "More than one selected list found");
           }
-          var resBody = [];
-          docs.map(function(x) {
-            if (x.name == selectedList.name) {
-                x.items.map(function(x){
-                  resBody.push(x);
-            });
 
-            }
 
-          }).join("\n");
+          var resBody = docs[0].items.join("\n");
 
           console.log(`ResBody: ${resBody}`);
-         var resBody = selectedList.name + ": \n" + resBody.join(" \n");
-
+          var resBody = selectedList.name + ":\n" + resBody;
           parseCallBack(res, resBody);
-
-
         });
 
 
