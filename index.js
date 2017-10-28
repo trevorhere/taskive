@@ -119,6 +119,8 @@ function parseMessage(msgBody, numFrom, res){
 
           console.log("//docs:\n");
           console.log(docs);
+          SelectedDocs[0].name = docs.name;
+          console.log(SelectedDocs);
           console.log("\n//docs//");
 
 
