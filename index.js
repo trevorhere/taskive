@@ -120,7 +120,7 @@ function parseMessage(msgBody, numFrom, res){
           if (docs.length == 0) {
             parseCallBack(res, "No lists found");
           }
-var resBody;
+          var resBody = [];
           docs.map(function(x) {
             if (x.name == selectedList.name) {
                 x.items.map(function(x){
@@ -132,7 +132,8 @@ var resBody;
           }).join("\n");
 
           console.log(`ResBody: ${resBody}`);
-        //  var resBody = resBody;
+         var resBody = selectedList.name + ": \n" + resBody.join(" \n");
+
           parseCallBack(res, resBody);
 
 
