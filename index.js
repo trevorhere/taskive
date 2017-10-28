@@ -90,6 +90,7 @@ function parseMessage(msgBody, numFrom, res){
           }
 
           var name = message.slice(2).join(" ");
+          console.log(`Name: ${name}`);
 
           // Insert a single document
           db.collection(numFrom).insertOne({name: []}, function(err, r) {
