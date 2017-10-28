@@ -33,7 +33,7 @@ function parseMessage(msgBody, numFrom, res){
    switch(keyCommand) {
     case "commands":
         console.log(`Commands triggered: ${msgBody}`);
-        return `Taskive: Tasks via SMS
+        var val = `Taskive: Tasks via SMS
         The following commands are available:
         1. HELP: Show this message
         2. LISTS: Show your lists (current list marked with *)
@@ -44,7 +44,8 @@ function parseMessage(msgBody, numFrom, res){
         7. REMOVE [0]: Removes [0] as an item from current list
         8. REMOVE LIST [0]: Removes list [0], will confirm if not empty
         9. COMPLETE [0]: Marks [0] as a completed item on the current list
-        `
+        `;
+        parseCallBack(res, val);
         break;
     case "lists":
       var collection = db.collection('documents');
@@ -77,7 +78,7 @@ function parseMessage(msgBody, numFrom, res){
         break;
     default:
       console.log(`None triggered: ${msgBody}`);
-      parseCallBack(sendErrorMessage());
+      parseCallBack(res, sendErrorMessage());
   };
 };
 
