@@ -26,15 +26,13 @@ function sendErrorMessage(){
     return "Sorry, we don\'t recognize that command. Send \"COMMANDS\" to view default commands";
 };
 
-function parseMessage(msgBody){
+function parseMessage(msgBody, numFrom){
    var message = msgBody.split(" ");
    var keyCommand = message[0].toLowerCase();
 
-
-
    switch(keyCommand) {
     case "commands":
-        console.log(`Help triggered: ${msgBody}`);
+        console.log(`Commands triggered: ${msgBody}`);
         return `Taskive: Tasks via SMS
         The following commands are available:
         1. HELP: Show this message
@@ -42,12 +40,18 @@ function parseMessage(msgBody){
         3. SHOW: Show items in current lists
         4. SELECT [0]: Select the list named by [0]
         5. ADD [0]: Adds [0] as an item to current list
-        6. REMOVE [0]: Removes [0] as an item from current list
-        7. COMPLETE [0]: Marks [0] as a completed item on the current list
+        6. ADD LIST [0]: Adds [0] as a new list
+        7. REMOVE [0]: Removes [0] as an item from current list
+        8. REMOVE LIST [0]: Removes list [0], will confirm if not empty
+        9. COMPLETE [0]: Marks [0] as a completed item on the current list
         `
         break;
     case "lists":
         console.log(`Lists triggered: ${msgBody}`);
+        var collection = db.collection(numFrom)
+        collection.find().toArray(function(err, docs) {
+          return docs;
+        })
         break;
     case "show":
         console.log(`Show triggered: ${msgBody}`);
