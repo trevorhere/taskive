@@ -89,18 +89,18 @@ function parseMessage(msgBody, numFrom, res){
             return
           }
 
-          var name = message.slice(2).join(" ");
-          console.log(`Name: ${name}`);
+          var somethingElse = message.slice(2).join(" ");
+          console.log(`Name: ${somethingElse}`);
 
           // Insert a single document
-          db.collection(numFrom).insertOne({name: []}, function(err, r) {
+          db.collection(numFrom).insertOne({somethingElse: []}, function(err, r) {
             assert.equal(null, err);
             assert.equal(1, r.insertedCount);
             console.log(r.result);
             parseCallBack(res, `Successfully created list: ${r.result}`);
           });
         } else {
-          var name = message.slice(1).join(" ");
+          var somethingElse = message.slice(1).join(" ");
         }        
         break;
     case "remove":
