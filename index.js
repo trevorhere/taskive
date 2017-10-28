@@ -212,9 +212,39 @@ function parseMessage(msgBody, numFrom, res){
           // add list item to selected list start
 
           var collection = db.collection(numFrom);
-          console.log(collection.find(query));
-          console.log(item);
-          console.log(collection);
+
+
+
+          collection.find({}).toArray(function(err, docs) {
+            if (err != null) {
+              console.log(`Error: ${err}`);
+              return
+            }
+
+            if (docs.length == 0) {
+              parseCallBack(res, "No lists found");
+            }
+
+
+
+            var resBody = docs.map(function(x) {
+              if (x.name == selectedList.name) {
+
+              x.items.push(item);
+
+              }
+
+            }).join("\n");
+
+            console.log(`ResBody: ${resBody}`);
+            var resBody = 'Lists:\n' + resBody;
+            parseCallBack(res, resBody);
+
+          });
+
+            console.log(collection.find(query));
+            console.log(item);
+          //   console.log(collection);
           // Find lists for this numbers
           // collection.find({}).toArray(function(err, docs) {
           //   if (err != null) {
