@@ -34,27 +34,38 @@ function parseMessage(msgBody){
 
    switch(keyCommand) {
     case "help":
-        console.log(msgBody);
+        console.log(`Help triggered: ${msgBody}`);
+        return `Taskive: Tasks via SMS
+        The following commands are available:
+        1. HELP: Show this message
+        2. LISTS: Show your lists (current list marked with *)
+        3. SHOW: Show items in current lists
+        4. SELECT [0]: Select the list named by [0]
+        5. ADD [0]: Adds [0] as an item to current list
+        6. REMOVE [0]: Removes [0] as an item from current list
+        7. COMPLETE [0]: Marks [0] as a completed item on the current list
+        `
         break;
     case "lists":
-        console.log(msgBody);
+        console.log(`Lists triggered: ${msgBody}`);
         break;
     case "show":
-        console.log(msgBody);
+        console.log(`Show triggered: ${msgBody}`);
         break;
     case "select":
-        console.log(msgBody);
+        console.log(`Select triggered: ${msgBody}`);
         break;
     case "add":
-        console.log(msgBody);
+        console.log(`Add triggered: ${msgBody}`);
         break;
     case "remove":
-        console.log(msgBody);
+        console.log(`Remove triggered: ${msgBody}`);
         break;
     case "complete":
-        console.log(msgBody);
+        console.log(`Complete triggered: ${msgBody}`);
         break;
     default:
+      console.log(`None triggered: ${msgBody}`);
       return sendErrorMessage();
   };
 };
