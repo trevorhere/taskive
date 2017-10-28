@@ -237,7 +237,7 @@ function parseMessage(msgBody, numFrom, res){
             }).join("\n");
 
             console.log(`ResBody: ${resBody}`);
-            var resBody = item + ' added to ' selectedList.name;
+            var resBody = item + ' added to ' + selectedList.name;
             parseCallBack(res, resBody);
 
           });
