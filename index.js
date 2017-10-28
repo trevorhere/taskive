@@ -53,6 +53,7 @@ function parseMessage(msgBody, numFrom, res){
         parseCallBack(res, val);
         break;
     case "lists":
+    console.log(`Lists triggered: ${msgBody}`);
       var collection = db.collection(numFrom);
       // Find lists for this numbers
       collection.find({}).toArray(function(err, docs) {
@@ -83,7 +84,7 @@ function parseMessage(msgBody, numFrom, res){
         // //      console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
         //     //  selectedListName = selectedDocs[0].name;
         // //      selectedList.name = selectedDocs[0].name;
-        // 
+        //
         //     }
 
             var resBody = docs.map(function(x) {
@@ -95,9 +96,9 @@ function parseMessage(msgBody, numFrom, res){
             var resBody = 'Lists:\n' + resBody;
             parseCallBack(res, resBody);
           });
-        }
-      });
-        console.log(`Lists triggered: ${msgBody}`);
+      //   }
+      // });
+
         break;
     case "view":
         console.log(`View triggered: ${msgBody}`);
