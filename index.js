@@ -2,8 +2,9 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var twilio = require('twilio');
 var keys = require("./keys");
-
+const MongoClient = require('mongodb').MongoClient
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+
 var app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
