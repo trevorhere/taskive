@@ -68,22 +68,21 @@ function parseMessage(msgBody, numFrom, res){
               return
             }
 
+            var selectedListName = null;
             if (selectedDocs.length == 0) {
               console.log("No selected list found");
               return
-            }
-
-            if (selectedDocs.length > 1) {
+            } else if (selectedDocs.length > 1) {
               console.log("More than one selected list found:");
               console.log(selectedDocs);
               return
+            } else {
+              console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
+              selectedListName = selectedDocs[0].name;
             }
 
-            console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
-
-            var selectedListName = selectedDocs[0].name;
             var resBody = docs.map(function(x) {
-              if (x.name == selectedListName) { return x.name + '*';}
+              if (selectedListName && x.name == selectedListName) { return x.name + '*';}
               else { return x.name; }
             }).join("\n");
 
