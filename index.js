@@ -4,6 +4,7 @@ var twilio = require('twilio');
 var keys = require("./keys");
 const MongoClient = require('mongodb').MongoClient
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const assert = require('assert');
 var app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
@@ -92,8 +93,8 @@ function parseMessage(msgBody, numFrom, res){
 
           // Insert a single document
           db.collection(numFrom).insertOne({name: []}, function(err, r) {
-            test.equal(null, err);
-            test.equal(1, r.insertedCount);
+            assert.equal(null, err);
+            assert.equal(1, r.insertedCount);
             parseCallBack(res, `Successfully created list: ${r.result}`);
           });
         } else {
