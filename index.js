@@ -105,7 +105,7 @@ function parseMessage(msgBody, numFrom, res){
     case "view":
         console.log(`View triggered: ${msgBody}`);
         
-        var query = {name:selectedList.name};
+        var query = {'name': selectedList.name};
         var collection = db.collection(numFrom);
 
         collection.find(query).toArray(function(err, docs) {
