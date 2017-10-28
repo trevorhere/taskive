@@ -127,7 +127,7 @@ function parseMessage(msgBody, numFrom, res){
        if(name == selectedList.name){
          parseCallBack(res, `That list is already selected`);
        } else {
-
+          selectedList.name === name;
 
        }
 
