@@ -173,7 +173,7 @@ case "remove":
           parseCallBack(res, `No List or more than one list with that name found` );
           return;
         }
-        console.log(docs[0].name);
+      //  console.log(docs[0].name);
         db.collection(numFrom).deleteOne(query, function(err, r) {
           assert.equal(null, err);
           assert.equal(1, r.result.n);
