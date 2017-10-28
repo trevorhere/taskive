@@ -208,11 +208,11 @@ function parseMessage(msgBody, numFrom, res){
         } else {
 
           var item = message.slice(1).join(" ");
-
+          var query = {name:selectedList.name};
           // add list item to selected list start
 
-          var collection = db.collection.find({name: selectedList.name});
-
+          var collection = db.collection(numFrom);
+          console.log(collection.find(query));
           console.log(item);
           console.log(collection);
           // Find lists for this numbers
