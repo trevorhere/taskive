@@ -79,8 +79,8 @@ function parseMessage(msgBody, numFrom, res){
               console.log("More than one selected list found:");
               console.log(selectedDocs);
             } else {
-              console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
-              selectedListName = selectedDocs[0].name;
+        //      console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
+            //  selectedListName = selectedDocs[0].name;
               selectedList.name = selectedDocs[0].name;
 
             }
@@ -190,6 +190,8 @@ function parseMessage(msgBody, numFrom, res){
               'name': name,
               items: []
             }
+            //selected list by default is latest created list
+            selectedList.name = name;
 
             if (docs.length == 0) {
               doc['selected'] = true;
