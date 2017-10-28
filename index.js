@@ -102,7 +102,7 @@ app.post('/message', (req, res) => {
 var db;
 
 MongoClient.connect(
-    `mongodb://${keys['mdb-user']}:${keys['mdb-pass']}@ds237855.mlab.com:37855/taskivedb`, 
+    `mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb`, 
     (err, database) => 
 {
   if (err) return console.log(err)
