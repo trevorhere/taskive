@@ -71,11 +71,9 @@ function parseMessage(msgBody, numFrom, res){
             var selectedListName = null;
             if (selectedDocs.length == 0) {
               console.log("No selected list found");
-              return
             } else if (selectedDocs.length > 1) {
               console.log("More than one selected list found:");
               console.log(selectedDocs);
-              return
             } else {
               console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
               selectedListName = selectedDocs[0].name;
