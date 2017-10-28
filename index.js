@@ -23,7 +23,7 @@ function sayHello(){
 }
 
 function sendErrorMessage(){
-    return "Sorry, we don\'t recognize that command. Send \"HELP\" to view default commands";
+    return "Sorry, we don\'t recognize that command. Send \"COMMANDS\" to view default commands";
 };
 
 function parseMessage(msgBody){
@@ -33,7 +33,7 @@ function parseMessage(msgBody){
 
 
    switch(keyCommand) {
-    case "help":
+    case "commands":
         console.log(`Help triggered: ${msgBody}`);
         return `Taskive: Tasks via SMS
         The following commands are available:
