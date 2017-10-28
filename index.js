@@ -81,6 +81,7 @@ function parseMessage(msgBody, numFrom, res){
             } else {
               console.log(`SelectedDocs[0].name: ${selectedDocs[0].name}`);
               selectedListName = selectedDocs[0].name;
+              selectedList.name = selectedDocs[0].name;
 
             }
 
