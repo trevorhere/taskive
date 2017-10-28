@@ -48,10 +48,6 @@ function parseMessage(msgBody, numFrom){
         break;
     case "lists":
         console.log(`Lists triggered: ${msgBody}`);
-        var collection = db.collection(numFrom)
-        collection.find().toArray(function(err, docs) {
-          return docs;
-        })
         break;
     case "show":
         console.log(`Show triggered: ${msgBody}`);
