@@ -108,7 +108,7 @@ function parseMessage(msgBody, numFrom, res){
         var query = {'name': selectedList.name};
         var collection = db.collection(numFrom);
 
-        collection.find(query).toArray(function(err, docs) {
+        collection.find({}).toArray(function(err, docs) {
           if (err != null) {
             console.log(`Error: ${err}`);
             return
@@ -123,8 +123,15 @@ function parseMessage(msgBody, numFrom, res){
             parseCallBack(res, "More than one selected list found");
           }
 
+          var items;
+          docs.forEach(function(x) {
+            if (x.name == selectedList.name) {
+                items = x.items;
+                console.log(`Items: ${items}`);
+              }
+          });
 
-          var resBody = docs[0].items.join("\n");
+          var resBody = items.join("\n");
 
           console.log(`ResBody: ${resBody}`);
           var resBody = selectedList.name + ":\n" + resBody;
