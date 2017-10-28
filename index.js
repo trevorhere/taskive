@@ -64,8 +64,15 @@ app.post('/message', (req, res) => {
 });
 
 
+var db;
 
-
-app.listen(app.get('port'), function(){
-  console.log("app is running on: " + app.get('port'))
+MongoClient.connect('mongodb://dbuser:rG4y8br#k^F25W7gFfnXcKaUYZhsR@ds237855.mlab.com:37855/taskivedb', (err, database) => {
+  if (err) return console.log(err)
+  db = database
+  app.listen(app.get('port'), function(){
+    console.log("app is running on: " + app.get('port'))
+  })
 });
+
+
+
