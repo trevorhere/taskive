@@ -237,12 +237,11 @@ function parseMessage(msgBody, numFrom, res){
             }
             //selected list by default is latest created list
             selectedList.name = name;
-
-
+            console.log(`Adding list: ${doc}`);
             db.collection(numFrom).insertOne(doc, function(err, r) {
               assert.equal(null, err);
               assert.equal(1, r.insertedCount);
-              console.log(r.result);
+              console.log(`Successfully created list: ${name}`);
               parseCallBack(res, `Successfully created list: ${name}`);
             });
           });
