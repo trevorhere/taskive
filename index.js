@@ -231,7 +231,8 @@ function parseMessage(msgBody, numFrom, res){
               if (x.name == selectedList.name) {
 
               x.items.push(item);
-
+              console.log("items: ");
+              console.log(x.items);
               }
 
             }).join("\n");
@@ -239,6 +240,7 @@ function parseMessage(msgBody, numFrom, res){
             console.log(`ResBody: ${resBody}`);
             var resBody = item + ' added to ' + selectedList.name;
             parseCallBack(res, resBody);
+
 
           });
 
