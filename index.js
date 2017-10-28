@@ -16,7 +16,8 @@ var authToken = keys['authToken'];
 var client = require('twilio')(accountSid, authToken);
 
 app.set('port', process.env.PORT || 8080);
-
+skive/index.js:103:4)
+    at Layer.handle [as handle_request] (
 
 //TEST FUNCTIONS
 function sayHello(){
