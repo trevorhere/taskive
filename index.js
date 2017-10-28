@@ -267,7 +267,7 @@ function parseMessage(msgBody, numFrom, res){
             docs.forEach(function(x) {
               if (x.name == selectedList.name) {
                   newItems = x.items;
-                  newitems.push(item);
+                  newItems.push(item);
                   console.log(`Items: ${newItems}`);
                 }
             });
