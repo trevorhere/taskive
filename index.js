@@ -96,6 +96,7 @@ function parseMessage(msgBody, numFrom, res){
           db.collection(numFrom).insertOne({name: []}, function(err, r) {
             assert.equal(null, err);
             assert.equal(1, r.insertedCount);
+            console.log(r.result);
             parseCallBack(res, `Successfully created list: ${r.result}`);
           });
         } else {
