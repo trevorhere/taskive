@@ -89,8 +89,7 @@ function parseMessage(msgBody, numFrom, res){
             return
           }
 
-          var somethingElse = message.slice(2).join(" ");
-          console.log(`Name: ${somethingElse}`);
+          var name = message.slice(2).join(" ");
 
           // Insert a single document
           var doc = {}
@@ -102,7 +101,7 @@ function parseMessage(msgBody, numFrom, res){
             parseCallBack(res, `Successfully created list: ${name}`);
           });
         } else {
-          var somethingElse = message.slice(1).join(" ");
+          var name = message.slice(1).join(" ");
         }        
         break;
     case "remove":
