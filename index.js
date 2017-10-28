@@ -50,7 +50,10 @@ function parseMessage(msgBody, numFrom, res){
       var collection = db.collection('documents');
       // Find some documents
       collection.find({}).toArray(function(err, docs) {
-        assert.equal(err, null);
+        if (err != null) {
+          console.log(`Error: ${err}`);
+          return
+        }
         console.log("Found the following records");
         console.log(docs)
         parseCallBack(docs);
