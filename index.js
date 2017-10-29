@@ -2,9 +2,9 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var twilio = require('twilio');
 var keys = require("./keys");
-var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb');
+
+//mongoose.connect('mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb');
 
 
 const MongoClient = require('mongodb').MongoClient
