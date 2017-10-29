@@ -1,7 +1,9 @@
-var express = require("express");
+dsvar express = require("express");
 var bodyParser = require("body-parser");
 var twilio = require('twilio');
 var keys = require("./keys");
+
+var todoRoutes = require('./routes/todos')
 
 
 //mongoose.connect('mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb');
@@ -13,6 +15,7 @@ const assert = require('assert');
 var app = express();
 
 app.use(bodyParser.urlencoded({extended:false}));
+app.use('/api/todos', todoRoutes);
 
 // Twilio Credentials
 var accountSid = keys['accountSid'];
@@ -23,10 +26,7 @@ var client = require('twilio')(accountSid, authToken);
 
 app.set('port', process.env.PORT || 8080);
 
-//TEST FUNCTIONS
-function sayHello(){
-  console.log("hello");
-}
+
 
 function sendErrorMessage(){
     return "Sorry, we don\'t recognize that command. Send \"COMMANDS\" to view default commands";
@@ -410,13 +410,7 @@ app.get('/', function(req, res){
 
 
 //RECEIVE MESSAGE
-app.post('/message', (req, res) => {
 
-  // Start our TwiML response.
-  var msgBody = req.body.Body;
-  var fromNumber = req.body.From;
-  parseMessage(msgBody, fromNumber, res);
-});
 
 // var db;
 //
