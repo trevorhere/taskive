@@ -2,6 +2,11 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var twilio = require('twilio');
 var keys = require("./keys");
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb');
+
+
 const MongoClient = require('mongodb').MongoClient
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const assert = require('assert');
@@ -119,7 +124,7 @@ function parseMessage(msgBody, numFrom, res){
           if (docs.length == 0) {
             parseCallBack(res, "No lists found");
             return
-          } 
+          }
 
           if (docs.length > 1) {
             console.log("More than one selected list found");
@@ -413,15 +418,15 @@ app.post('/message', (req, res) => {
   parseMessage(msgBody, fromNumber, res);
 });
 
-var db;
-
-MongoClient.connect(
-    `mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb`,
-    (err, database) =>
-{
-  if (err) return console.log(err)
-  db = database
+// var db;
+//
+// MongoClient.connect(
+//     `mongodb://${keys['mdb-user']}:${keys['mdb-pass']}\@ds237855.mlab.com:37855/taskivedb`,
+//     (err, database) =>
+// {
+//   if (err) return console.log(err)
+//   db = database
   app.listen(app.get('port'), function(){
     console.log("app is running on: " + app.get('port'))
-  })
-});
+  });
+// });
