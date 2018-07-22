@@ -2,6 +2,11 @@
   "name": "example-create-react-app-express",
   "version": "1.0.0",
   "description": "Example on using create-react-app with a Node Express Backend",
+  "author": {
+    "name": "Esau Silva",
+    "email": "esausilva85@gmail.com",
+    "url": "https://esausilva.com"
+  },
   "license": "MIT",
   "scripts": {
     "client": "cd client && yarn start",
@@ -12,12 +17,14 @@
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.3",
-    "twilio": "^3.17.6",
-    "whatwg-fetch": "^2.0.3"
+    "mongoose": "^5.2.3",
+    "twilio": "^3.17.6"
   },
   "devDependencies": {
-    "concurrently": "^3.6.0"
+    "concurrently": "^3.6.0",
+    "nodemon": "^1.18.2"
   },
   "repository": {
     "type": "git",

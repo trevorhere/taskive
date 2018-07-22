@@ -7,7 +7,9 @@ const Parser = require('./Parser');
 const app = express();
 const port = process.env.PORT || 5000;
 
+
 app.use(bodyParser.urlencoded({ extended: false }));
+
 
 
 // Where SMS are recieved. 
@@ -17,22 +19,35 @@ app.post('/sms', (req, res) => {
   const twiml = new MessagingResponse();
   let body = req.body.Body;
   
-  let message = Parser.Parser(body);
+  let message = Parser.Parser(req,res, body);
+
+  if(message != null){
+  console.log("message: " + message);
   twiml.message(message);
  
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
+  console.log(body);
+  } else {
+    console.log('null recieved')
+  }
+  
 });
 
 app.get('/api/test', (req, res) => {
-  console.log("/test hit")
+  console.log("/api/test hit")
   const twiml = new MessagingResponse();
   
-  let message = Parser.Parser("working");
+  let message = Parser.Parser(req, res, "working");
+  if(message != null)
+  {
   twiml.message(message);
  
   res.writeHead(200, {'Content-Type': 'text/xml'});
   res.end(twiml.toString());
+  } else {
+    console.log('null recieved')
+  }
 });
 
 
@@ -71,6 +86,9 @@ app.post('/api/send', (req, res) => {
   if(!SID || !TOKEN) {
     return res.json({message: 'add TWILIO_SID and TWILIO_TOKEN to .env file.'})
   }
+
+
+
 
   let client = require('twilio')(SID, TOKEN)
 
