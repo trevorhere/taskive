@@ -87,9 +87,6 @@ app.get('/api/cat-facts', (req,res) => {
 })
 
 app.post('/api/send', (req, res) => {
-  let SID = "AC32dff523f958932d42897186ce22f286" // process.env.TWILIO_SID;
-  let TOKEN = "6ea5683c97d8f7b38d9d1ec2770c1143" //process.env.TWILIO_TOKEN;
-  let SENDER = "+13852904244" // process.env.TWILIO_SENDER
 
   if(!SID || !TOKEN) {
     return res.json({message: 'add TWILIO_SID and TWILIO_TOKEN to .env file.'})
