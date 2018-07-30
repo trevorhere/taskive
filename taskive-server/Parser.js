@@ -1,17 +1,23 @@
-const { createList, createListSMS, viewListsNamesSMS } = require('./handlers/lists');
-let List =   require('./models/list');
+const { createList, createListSMS, viewListsNamesSMS, viewListsItemsSMS, addItemSMS } = require('./handlers/lists');
+let List = require('./models/list');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
+const dotenv = require('dotenv');
+dotenv.load();
 
-let SID = "AC32dff523f958932d42897186ce22f286" // process.env.TWILIO_SID;
-let TOKEN = "6ea5683c97d8f7b38d9d1ec2770c1143" //process.env.TWILIO_TOKEN;
-let SENDER = "+13852904244" // process.env.TWILIO_SENDER
 
+
+// let client = require('twilio')(SID, TOKEN)
+
+
+let SID =  process.env.TWILIO_SID;
+let TOKEN = process.env.TWILIO_TOKEN;
+let SENDER =   process.env.TWILIO_SENDER;
 let client = require('twilio')(SID, TOKEN)
 
 
 let secondCommand = '';
-let currListName = '';
-let selectedList = '';
+let selectedList = null;
+
 
 exports.Parser = (req, res, body) => {
    switch (getCommand(body)){
@@ -19,7 +25,14 @@ exports.Parser = (req, res, body) => {
        return helpScript;
    
        case "list":
-       return "fetching database lists";
+       console.log("list hit")
+       viewListsNamesSMS().then(results => { sendSMS(req, res, results)});
+       return null;
+
+       case "lists":
+       console.log("list hit")
+       viewListsNamesSMS().then(results => { sendSMS(req, res, results)});
+       return null;
 
        case "add":
        createListSMS(secondCommand);
@@ -28,24 +41,32 @@ exports.Parser = (req, res, body) => {
        case "select":
        return selectList(secondCommand);
 
-       case "view":
-       console.log("view hit")
-       viewListsNamesSMS().then(results => { console.log('results: ' + results); sendSMS2(req, res, results)});
+       case "items":
+       console.log("items hit")
+       viewListsItemsSMS().then(results => { sendSMS(req, res, results)});
        return null;
 
-       case "add":
-       console.log("add list hit");
-       return "coolio";
+       case "plus": //send list after adding an item or removing item
+       console.log("plus hit");
+       addItemSMS(secondCommand).then(results => { sendSMS(req, res, results)});
+       return null;
 
        case "working":
-       console.log("working hit")
-       viewListsNamesSMS().then(results => { console.log('results2: ' + results); sendSMS2(req, res, results)});
+       console.log("working hit");
+       addItemSMS("secondCommand").then(results => { sendSMS(req, res, results)});
        return null;
     
-       
        default: 
        return "No trigger detected";
    } 
+}
+
+exports.getSelectedList = () => {
+    return selectedList;
+}
+
+exports.setSelectedList = (selectedList) => {
+    selectList = selectedList;
 }
 
 let getCommand = (text) => {
@@ -65,8 +86,8 @@ let getCommand = (text) => {
 }
 
 let selectList = (name) => {
-    currListName = name;
-   return  "fetching list: " + name;
+    selectedList = name;
+   return  "selecting: " + selectedList;
 }
 
 let viewItems = () => {
@@ -82,25 +103,9 @@ let viewItems = () => {
             console.log({name})
         }
     });
-
-
-  
-    
 }
 
-let sendSMS = (res, resBody) => {
-    // Add a text message.
-    const twiml = new MessagingResponse();
-    const msg = twiml.message(resBody);//
-  
-    // Add a picture message.
-    //  msg.media('https://www.softpaws.com/template/images/landing_page/july_cat_image.jpg');
-  
-    //res.writeHead(200, {'Content-Type': 'text/xml'});
-    res.end(twiml.toString());
-  }
-
-  let sendSMS2 = (req, res, body) => {
+  let sendSMS = (req, res, body) => {
 
     console.log('req: ' + req);
     console.log('body: ' + body);
@@ -126,7 +131,7 @@ let helpScript =
 " The following commands are available: " +
 "\n1. \"?\": Show this message " +
 "\n2. \"list\": Show your lists (current list marked with *) " +
-"\n3. \"view\": View items in current lists " +
+"\n3. \"items\": View items in current lists " +
 "\n4. \"select 'name' \": Select the list by 'name' " +
 "\n5. \"add 'name' \": Adds 'name' as an item to current list " +
 "\n6. \"add list 'name' \": Adds 'name' as a new list " +

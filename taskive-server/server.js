@@ -3,9 +3,17 @@ const path = require('path');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const bodyParser = require('body-parser');
 const Parser = require('./Parser');
+const dotenv = require('dotenv');
+
+dotenv.load();
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+let SID =  process.env.TWILIO_SID;
+let TOKEN = process.env.TWILIO_TOKEN;
+let SENDER =   process.env.TWILIO_SENDER;
+let client = require('twilio')(SID, TOKEN)
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,8 +26,8 @@ app.post('/sms', (req, res) => {
   console.log("/sms hit")
   const twiml = new MessagingResponse();
   let body = req.body.Body;
-  
-  let message = Parser.Parser(req,res, body);
+  let recipient = req.body.recipient;
+  let message = Parser.Parser(recipient,res, body);
 
   if(message != null){
   console.log("message: " + message);

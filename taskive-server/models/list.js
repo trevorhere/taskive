@@ -8,8 +8,7 @@ const listSchema = new mongoose.Schema({
         unique: true
     },
     listItems: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ListItem'
+        type: String
     }]
 
 })
