@@ -91,18 +91,6 @@ exports.addItemSMS = async (item) => {
         try
         {
 
-
-    let getId = (lists) => 
-    {
-       for(let i = 0; i <lists.length; i ++)
-           {
-               if(lists[i].name.toString() == selectedList)
-               {
-                   return lists[i]._id;
-               }
-           }
-   }
-
          async function getListNames() {
             const result = await db.List.find(); 
             return result;
@@ -123,25 +111,6 @@ exports.addItemSMS = async (item) => {
             }
         );
 
-            // db.List.findById(listID,(err, list) => {
-            //     if(err)
-            //     {
-            //         console.log('err: ' + err);
-            //         return err;
-            //     }
-            //     else
-            //     {
-            //         console.log(list.name);
-            //         console.log(list.listItems);
-
-            //         list.listItems.push("test");
-            //         list.save();
-            //         console.log(list.listItems);
-
-            //         //list.save();
-            //     }
-            // });
-
         return item + " added.";
         } 
         catch (err)
@@ -149,11 +118,50 @@ exports.addItemSMS = async (item) => {
             console.log('error in addItemSMS ' + err);
             return "An error occured";
 
+        }  
+    }
+}
+
+exports.removeItemSMS = async (item) => {
+    selectedList = Parser.getSelectedList();
+    if(selectedList == null)
+    {
+        return "please select a list before removing list items"
+    }
+    else
+    {  
+        try 
+        {
+            async function getListNames() 
+            {
+                const result = await db.List.find(); 
+                return result;
+            }
+            let listID = getId(await getListNames());
+            console.log('listID: ' + listID);
+
+            console.log('error in addItemSMS ' + err);
+            return "An error occured";
+
+            db.List.findByIdAndUpdate(listID,
+                {$pull: {listItems: item}},
+                {safe: true, upsert: true},
+                function(err, doc) {
+                    if(err){
+                    console.log(err);
+                    }else{
+                    //do stuff
+                    }
+                }
+            );
+        return item + " removed.";
         }
+        catch (err)
+        {
+            console.log('error in addItemSMS ' + err);
+            return "An error occured";
 
-
-       
-        
+        }  
     }
 }
 
@@ -202,4 +210,15 @@ exports.viewListsItemsSMS = async () => {
 
 
     }
+}
+
+let getId = (lists) => 
+{
+   for(let i = 0; i <lists.length; i ++)
+       {
+           if(lists[i].name.toString() == selectedList)
+           {
+               return lists[i]._id;
+           }
+       }
 }

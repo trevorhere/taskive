@@ -1,4 +1,4 @@
-const { createList, createListSMS, viewListsNamesSMS, viewListsItemsSMS, addItemSMS } = require('./handlers/lists');
+const { createList, createListSMS, viewListsNamesSMS, viewListsItemsSMS, addItemSMS, removeItemSMS } = require('./handlers/lists');
 let List = require('./models/list');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const dotenv = require('dotenv');
@@ -41,7 +41,7 @@ exports.Parser = (req, res, body) => {
        case "select":
        return selectList(secondCommand);
 
-       case "items":
+       case "items" || "item":
        console.log("items hit")
        viewListsItemsSMS().then(results => { sendSMS(req, res, results)});
        return null;
@@ -49,6 +49,11 @@ exports.Parser = (req, res, body) => {
        case "plus": //send list after adding an item or removing item
        console.log("plus hit");
        addItemSMS(secondCommand).then(results => { sendSMS(req, res, results)});
+       return null;
+
+       case "minus": //send list after adding an item or removing item
+       console.log("minus hit");
+       removeItemSMS(secondCommand).then(results => { sendSMS(req, res, results)});
        return null;
 
        case "working":
