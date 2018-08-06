@@ -11,11 +11,11 @@ exports.createList = async function(req,res,next){
         let list = await db.List.create({
             name: req.body.name
         });
-     return res.status(200)
+     return req.body.name + ' added.';
     }
     catch (err)
     {
-        return next(err);
+        return 'error adding list';
     }
 }
 
@@ -26,11 +26,46 @@ exports.createListSMS = async (name) => {
         let list = await db.List.create({
             name: name
         });
-     return res.status(200)
+     return name + ' added.'
     }
     catch (err)
     {
         console.log(`error at createListsSMS: ${err}`)
+        return 'error adding ' + name;
+    }
+}
+
+exports.removeListSMS = async () => {
+    try 
+    {
+        if(Parser.getSelectedList() != null)
+        {
+          selectedList = Parser.getSelectedList();
+        }
+        else 
+        {
+            return 'please select a list to remove. '
+        }
+
+        async function getListNames() 
+        {
+            const result = await db.List.find(); 
+            return result;
+        }
+        let listID = getId(await getListNames());
+
+        console.log('selectedList: ' + selectedList)
+        console.log('listID: ' + listID);
+
+        db.List.remove({_id : listID}).exec();
+     
+
+        return selectedList + " removed.";
+
+    }
+    catch (err)
+    {
+        console.log(`error at removeListsSMS: ${err}`)
         return next(err);
     }
 }
@@ -140,17 +175,18 @@ exports.removeItemSMS = async (item) => {
             let listID = getId(await getListNames());
             console.log('listID: ' + listID);
 
-            console.log('error in addItemSMS ' + err);
-            return "An error occured";
 
+            console.log('item: ' + item);
+            
             db.List.findByIdAndUpdate(listID,
                 {$pull: {listItems: item}},
                 {safe: true, upsert: true},
                 function(err, doc) {
                     if(err){
-                    console.log(err);
+                    console.log('err: ' + err);
                     }else{
                     //do stuff
+                    console.log('doc: ' + doc );
                     }
                 }
             );
@@ -158,7 +194,7 @@ exports.removeItemSMS = async (item) => {
         }
         catch (err)
         {
-            console.log('error in addItemSMS ' + err);
+            console.log('error in removeItemSMS ' + err);
             return "An error occured";
 
         }  

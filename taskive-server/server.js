@@ -15,7 +15,6 @@ let TOKEN = process.env.TWILIO_TOKEN;
 let SENDER =   process.env.TWILIO_SENDER;
 let client = require('twilio')(SID, TOKEN)
 
-
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
@@ -26,8 +25,9 @@ app.post('/sms', (req, res) => {
   console.log("/sms hit")
   const twiml = new MessagingResponse();
   let body = req.body.Body;
+  let from = req.body.From;
   let recipient = req.body.recipient;
-  let message = Parser.Parser(recipient,res, body);
+  let message = Parser.Parser(recipient,res, body, from);
 
   if(message != null){
   console.log("message: " + message);

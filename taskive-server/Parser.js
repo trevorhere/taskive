@@ -1,4 +1,12 @@
-const { createList, createListSMS, viewListsNamesSMS, viewListsItemsSMS, addItemSMS, removeItemSMS } = require('./handlers/lists');
+const { 
+    createList, 
+    createListSMS,
+    viewListsNamesSMS, 
+    viewListsItemsSMS, 
+    addItemSMS, 
+    removeItemSMS,
+    removeListSMS      
+  } = require('./handlers/lists');
 let List = require('./models/list');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const dotenv = require('dotenv');
@@ -15,51 +23,56 @@ let SENDER =   process.env.TWILIO_SENDER;
 let client = require('twilio')(SID, TOKEN)
 
 
-let secondCommand = '';
+let secondCommand = null;
 let selectedList = null;
 
 
-exports.Parser = (req, res, body) => {
+exports.Parser = (req, res, body, userNumber) => {
    switch (getCommand(body)){
        case "?":
        return helpScript;
    
        case "list":
        console.log("list hit")
-       viewListsNamesSMS().then(results => { sendSMS(req, res, results)});
+       viewListsNamesSMS().then(results => { sendSMS(req, res, results, userNumber)});
        return null;
 
        case "lists":
        console.log("list hit")
-       viewListsNamesSMS().then(results => { sendSMS(req, res, results)});
+       viewListsNamesSMS().then(results => { sendSMS(req, res, results, userNumber)});
        return null;
 
        case "add":
-       createListSMS(secondCommand);
-       return `added ${secondCommand} `;
+       createListSMS(secondCommand).then(results => { sendSMS(req, res, results, userNumber)});
+       return null;
+
+       case "remove":
+       removeListSMS().then(results => { sendSMS(req, res, results, userNumber)});
+       return null;
 
        case "select":
        return selectList(secondCommand);
 
        case "items" || "item":
        console.log("items hit")
-       viewListsItemsSMS().then(results => { sendSMS(req, res, results)});
+       viewListsItemsSMS().then(results => { sendSMS(req, res, results, userNumber)});
        return null;
 
        case "plus": //send list after adding an item or removing item
        console.log("plus hit");
-       addItemSMS(secondCommand).then(results => { sendSMS(req, res, results)});
+       addItemSMS(secondCommand).then(results => { sendSMS(req, res, results, userNumber)});
        return null;
 
        case "minus": //send list after adding an item or removing item
        console.log("minus hit");
-       removeItemSMS(secondCommand).then(results => { sendSMS(req, res, results)});
+       removeItemSMS(secondCommand).then(results => { sendSMS(req, res, results, userNumber)});
        return null;
 
        case "working":
-       console.log("working hit");
-       addItemSMS("secondCommand").then(results => { sendSMS(req, res, results)});
+       console.log('working hit')
+       removeListSMS();
        return null;
+
     
        default: 
        return "No trigger detected";
@@ -110,7 +123,7 @@ let viewItems = () => {
     });
 }
 
-  let sendSMS = (req, res, body) => {
+  let sendSMS = (req, res, body, userNumber) => {
 
     console.log('req: ' + req);
     console.log('body: ' + body);
@@ -120,12 +133,12 @@ let viewItems = () => {
         .create({
            body: body,
            from: SENDER,
-           to: '+15598167525'
+           to: userNumber
          })
         .then(message => console.log(message.sid))
         .done();
     } catch (err){
-        console.log("error in send sms2: " + err);
+        console.log("error in sendSMS: " + err);
     }
 
   };
