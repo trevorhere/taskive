@@ -5,14 +5,15 @@ const {
     viewListsItemsSMS, 
     addItemSMS, 
     removeItemSMS,
-    removeListSMS      
+    removeListSMS,
+    testingDB,
+    createUserSMS      
   } = require('./handlers/lists');
 let List = require('./models/list');
+let User = require('./models/user')
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const dotenv = require('dotenv');
 dotenv.load();
-
-
 
 // let client = require('twilio')(SID, TOKEN)
 
@@ -34,16 +35,17 @@ exports.Parser = (req, res, body, userNumber) => {
    
        case "list":
        console.log("list hit")
-       viewListsNamesSMS().then(results => { sendSMS(req, res, results, userNumber)});
+       console.log('un' + userNumber)
+       viewListsNamesSMS(userNumber).then(results => { sendSMS(req, res, results, userNumber)});
        return null;
 
        case "lists":
        console.log("list hit")
-       viewListsNamesSMS().then(results => { sendSMS(req, res, results, userNumber)});
+       viewListsNamesSMS(userNumber).then(results => { sendSMS(req, res, results, userNumber)});
        return null;
 
        case "add":
-       createListSMS(secondCommand).then(results => { sendSMS(req, res, results, userNumber)});
+       createListSMS(secondCommand, userNumber).then(results => { sendSMS(req, res, results, userNumber)});
        return null;
 
        case "remove":
@@ -70,7 +72,10 @@ exports.Parser = (req, res, body, userNumber) => {
 
        case "working":
        console.log('working hit')
-       removeListSMS();
+       //createListSMS("movies",'+15598167525');
+       //testingDB(secondCommand, '+15598167525')
+       //createUserSMS("Trevor", "Lane", '+15598167525');
+       viewListsNamesSMS('+15598167525');
        return null;
 
     

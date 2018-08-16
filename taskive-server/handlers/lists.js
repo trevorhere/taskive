@@ -1,37 +1,104 @@
 const db = require('../models');
+const User = require('../models/user')
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const { getSelectedList , setSelectedList } = require('../Parser')
 const  Parser = require('../Parser');
 
 let selectedList = null;
 
-exports.createList = async function(req,res,next){
-    try 
+
+exports.testingDB = async (name, from) => {
+    try {
+        console.log('from: ' + from);
+        //let user = await getUserFromDB(from);
+        //console.log('user: ' + user);
+        const result = await User.find();
+        console.log('result: ' + result);
+    } 
+    catch(err)
     {
-        let list = await db.List.create({
-            name: req.body.name
-        });
-     return req.body.name + ' added.';
-    }
-    catch (err)
-    {
-        return 'error adding list';
+      console.log('err in testingDB: ' + err);
     }
 }
 
-exports.createListSMS = async (name) => {
+exports.createListSMS = async (name, from) => { // WORKING
    
     try 
     {
-        let list = await db.List.create({
-            name: name
-        });
-     return name + ' added.'
+        let user = await getUserFromDB(from);
+        if(user == null)
+        {
+            return 'error finding account';
+        }
+
+        User.findByIdAndUpdate(user._id,
+            {$push: {lists: {listName: name}}},
+            {safe: true, upsert: true},
+            function(err, doc) {
+                if(err)
+                {
+                console.log(err);
+                return 'error adding ' + name;
+                }
+                else
+                {
+                    return name + ' added.'
+                }
+            }
+        );
+   
     }
     catch (err)
     {
         console.log(`error at createListsSMS: ${err}`)
         return 'error adding ' + name;
+    }
+}
+
+exports.createUserSMS = async (firstName, lastName, from) => { // WORKING
+    console.log('firstname: ' +firstName);
+    console.log(`lastName ${lastName}`)
+    console.log(`from ${from}`)
+   
+    try 
+    {
+       // let user = await getUserFromDB(from);
+        let user = await User.create({
+            firstName: firstName,
+            lastName: lastName,
+            number: from
+
+        });
+
+     return firstName + ' added.'
+    }
+    catch (err)
+    {
+        console.log(`error at createUsercanSMS: ${err}`)
+        return 'error adding ' + firstName;
+    }
+}
+ 
+let getUserFromDB = async (userNumber) => {
+
+    try {
+    const Users = await User.find(); 
+    let result = null;
+    for(let i = 0; i < Users.length; i ++)
+    {
+        console.log(Users[i])
+        if(Users[i].number == userNumber)
+        {
+            result = Users[i];
+        }
+    }
+
+    console.log('result: ' + result)
+    return result;
+    } 
+    catch(err)
+    {
+        console.log('error getting user: ' + err);
     }
 }
 
@@ -70,46 +137,62 @@ exports.removeListSMS = async () => {
     }
 }
 
-exports.viewListsNamesSMS = async () => {
+exports.viewListsNamesSMS = async (from) => {
 
-   try 
-   {
-       if(Parser.getSelectedList() != null)
-       {
-         selectedList = Parser.getSelectedList();
-       }
-   } 
-   catch (err)
-   {
-       console.log('error in viewListNamesSMS: ' + err);
-   }
+   // console.log('viewlistnamessmsm hit')
+    // let user = await getUserFromDB(from);
+    // if(user == null)
+    // {
+    //     return 'error finding account';
+    // }
+
+   // let list = db.List.findById(, function (err, adventure) {});
+
+//    try 
+//    {
+//        if(Parser.getSelectedList() != null)
+//        {
+//          selectedList = Parser.getSelectedList();
+//        }
+//    } 
+//    catch (err)
+//    {
+//        console.log('error in viewListNamesSMS: ' + err);
+//    }
   
      console.log("view lists names hit");
 
-     let formatResult = (messages) => {
+     let formatResult = (user) => {
         let temp = [];
-        for(let i = 0; i < messages.length; i ++)
+        for(let i = 0; i < user.lists.length; i ++)
             {
-                if(selectedList != null && selectedList == messages[i].name)
-                {
-                    temp.push(messages[i].name.toString() + " *");
-                }
-                else
-                {
-                    temp.push(messages[i].name.toString());
-                }
+                // if(selectedList != null && selectedList == messages[i].name)
+                // {
+                //     temp.push(messages[i].name.toString() + " *");
+                // }
+                // else
+                // {
+                      temp.push(user.lists[i].listName.toString());
+                // }
             }
 
-            return "Lists: \n" + temp.join('\n');
+              return "Lists: \n" + temp.join('\n');
     }
 
- async function getListNames() {
-        const result = await db.List.find(); 
+//  async function getListNames() {
+//         const result = await db.List.find(); 
+//         console.log("result: " + result)
+//         return result;
+//     }
+
+ async function getUser() {
+        const result = await User.findOne({number:from}); 
         console.log("result: " + result)
         return result;
     }
 
-let final = formatResult( await getListNames());
+
+let final =  formatResult(await getUser());
 console.log('final: ' + final);
 return final;
 

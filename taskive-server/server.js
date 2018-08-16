@@ -27,6 +27,7 @@ app.post('/sms', (req, res) => {
   let body = req.body.Body;
   let from = req.body.From;
   let recipient = req.body.recipient;
+  console.log('from: ' + from );
   let message = Parser.Parser(recipient,res, body, from);
 
   if(message != null){

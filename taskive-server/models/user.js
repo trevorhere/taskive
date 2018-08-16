@@ -8,14 +8,25 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    name: {
+    firstName: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    lastName: {
         type: String,
         required: true,
         unique: true
     },
     lists: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "List"
+            listName: {
+                type: String,
+                unique: true
+            },
+            listItems: [{
+                type: String,
+                unique: true
+            }]
     }]
 
 })

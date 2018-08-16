@@ -7,8 +7,9 @@ dotenv.load();
 
 let mongoUsername = process.env.MONGO_USERNAME;
 let mongoPassword = process.env.MONGO_PASSWORD;
+let mongoToken = process.env.MONGO_TOKEN
 
-mongoose.connect(`mongodb://${mongoUsername}:${mongoPassword}@ds231501.mlab.com:31501/taskive`, {
+mongoose.connect(mongoToken, {
     keepAlive: true,
     useNewUrlParser: true 
 });
