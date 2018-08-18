@@ -14,6 +14,5 @@ mongoose.connect(mongoToken, {
     useNewUrlParser: true 
 });
 
-module.exports.List = require('./user');
+module.exports.User = require('./user');
 module.exports.List = require('./list');
-module.exports.ListItem = require('./listItem');

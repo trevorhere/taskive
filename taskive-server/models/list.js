@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
-const ListItem = require('./listItem');
 
 const listSchema = new mongoose.Schema({
-    name: {
+    owner: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    },
+    listName: {
         type: String,
         required: true,
         unique: true

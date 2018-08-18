@@ -1,6 +1,7 @@
 const { 
     createList, 
     createListSMS,
+    selectListSMS,
     viewListsNamesSMS, 
     viewListsItemsSMS, 
     addItemSMS, 
@@ -28,54 +29,59 @@ let secondCommand = null;
 let selectedList = null;
 
 
-exports.Parser = (req, res, body, userNumber) => {
+exports.Parser = ( body, userNumber) => {
    switch (getCommand(body)){
        case "?":
        return helpScript;
    
        case "list":
        console.log("list hit")
-       console.log('un' + userNumber)
-       viewListsNamesSMS(userNumber).then(results => { sendSMS(req, res, results, userNumber)});
+       viewListsNamesSMS(userNumber).then(results => { sendSMS( results, userNumber)});
        return null;
 
        case "lists":
        console.log("list hit")
-       viewListsNamesSMS(userNumber).then(results => { sendSMS(req, res, results, userNumber)});
+       viewListsNamesSMS(userNumber).then(results => { sendSMS(results, userNumber)});
        return null;
 
        case "add":
-       createListSMS(secondCommand, userNumber).then(results => { sendSMS(req, res, results, userNumber)});
+       createListSMS(secondCommand, userNumber).then(results => { sendSMS( results, userNumber)});
        return null;
 
        case "remove":
-       removeListSMS().then(results => { sendSMS(req, res, results, userNumber)});
+       removeListSMS(userNumber).then(results => { sendSMS( results, userNumber)});
        return null;
 
        case "select":
-       return selectList(secondCommand);
+       console.log('select hit');
+       return selectListSMS(userNumber, secondCommand).then(results => { sendSMS( results, userNumber)});
 
        case "items" || "item":
        console.log("items hit")
-       viewListsItemsSMS().then(results => { sendSMS(req, res, results, userNumber)});
+       viewListsItemsSMS(userNumber).then(results => { sendSMS( results, userNumber)});
        return null;
 
        case "plus": //send list after adding an item or removing item
        console.log("plus hit");
-       addItemSMS(secondCommand).then(results => { sendSMS(req, res, results, userNumber)});
+       addItemSMS(userNumber,secondCommand).then(results => { sendSMS( results, userNumber)});
        return null;
 
        case "minus": //send list after adding an item or removing item
        console.log("minus hit");
-       removeItemSMS(secondCommand).then(results => { sendSMS(req, res, results, userNumber)});
+       removeItemSMS(userNumber,secondCommand).then(results => { sendSMS( results, userNumber)});
        return null;
 
        case "working":
        console.log('working hit')
+       //removeListSMS('+15598167525');
+       //addItemSMS('+15598167525','test');
+       //addItemSMS('+15598167525','john wick');
+       //removeItemSMS('+15598167525','test');
+       //viewListsItemsSMS('+15598167525');
+       //createUserSMS("Trevor", "Lane", '+15598167525');
        //createListSMS("movies",'+15598167525');
        //testingDB(secondCommand, '+15598167525')
-       //createUserSMS("Trevor", "Lane", '+15598167525');
-       viewListsNamesSMS('+15598167525');
+       //viewListsNamesSMS('+15598167525');
        return null;
 
     
@@ -88,8 +94,8 @@ exports.getSelectedList = () => {
     return selectedList;
 }
 
-exports.setSelectedList = (selectedList) => {
-    selectList = selectedList;
+exports.setSelectedList = (newList) => {
+    selectedList = newList;
 }
 
 let getCommand = (text) => {
@@ -105,6 +111,7 @@ let getCommand = (text) => {
     }
    
     let command = message[0].toLowerCase();
+    console.log('command: ' +  command)
     return command;
 }
 
@@ -128,10 +135,7 @@ let viewItems = () => {
     });
 }
 
-  let sendSMS = (req, res, body, userNumber) => {
-
-    console.log('req: ' + req);
-    console.log('body: ' + body);
+  let sendSMS = (body, userNumber) => {
    
     try {
         client.messages

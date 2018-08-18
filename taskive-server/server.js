@@ -26,9 +26,7 @@ app.post('/sms', (req, res) => {
   const twiml = new MessagingResponse();
   let body = req.body.Body;
   let from = req.body.From;
-  let recipient = req.body.recipient;
-  console.log('from: ' + from );
-  let message = Parser.Parser(recipient,res, body, from);
+  let message = Parser.Parser(body, from);
 
   if(message != null){
   console.log("message: " + message);

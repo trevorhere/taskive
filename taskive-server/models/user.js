@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const ListItem = require('./listItem');
-const List = require('./list')
 
 const userSchema = new mongoose.Schema({
     number: {
@@ -11,22 +9,16 @@ const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
-        unique: true
+       
     },
     lastName: {
         type: String,
         required: true,
-        unique: true
+       
     },
     lists: [{
-            listName: {
-                type: String,
-                unique: true
-            },
-            listItems: [{
-                type: String,
-                unique: true
-            }]
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "List"
     }]
 
 })
